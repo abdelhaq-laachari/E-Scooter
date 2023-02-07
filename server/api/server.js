@@ -15,6 +15,7 @@ app.use(cors());
 
 
 app.use("/user", require("./routes/userRoutes"));
+app.use("/admin", require("./routes/adminRoutes"));
 
 app.use(errorHandler);
 app.listen(port, () => console.log(`Server started on port ${port}`));

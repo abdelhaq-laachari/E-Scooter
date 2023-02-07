@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const User = require("../models/userModel");
+const Admin = require("../models/adminModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -18,8 +18,8 @@ const register = asyncHandler(async (req, res) => {
 
   //   check if the admin already exists
 
-  const userExists = await User.findOne({ email });
-  if (userExists) {
+  const adminExists = await Admin.findOne({ email });
+  if (adminExists) {
     res.status(400);
     throw new Error("User already exists");
   }
@@ -29,7 +29,7 @@ const register = asyncHandler(async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, salt);
 
   // create admin
-  const user = await User.create({
+  const admin = await Admin.create({
     name,
     email,
     password: hashedPassword,
@@ -37,9 +37,9 @@ const register = asyncHandler(async (req, res) => {
   });
 
   //   if admin created send success message
-  if (user) {
+  if (admin) {
     res.status(201).json({
-      token: generateToken(user._id),
+      token: generateToken(admin._id),
     });
   } else {
     res.status(400);
@@ -50,14 +50,13 @@ const register = asyncHandler(async (req, res) => {
 // @desc    Auth user & get token
 // @route   POST /api/admin/login
 // @access  Public
-
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const admin = await User.findOne({ email });
 
-  if (user && (await bcrypt.compare(password, user.password))) {
+  if (admin && (await bcrypt.compare(password, admin.password))) {
     res.json({
-      token: generateToken(user._id),
+      token: generateToken(admin._id),
     });
   } else {
     res.status(401);
