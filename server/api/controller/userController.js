@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const Scooter = require("../models/scooterModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -65,6 +66,29 @@ const login = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Rent a scooter
+// @route   POST /user/rent
+// @access  Private
+
+const rentScooter = asyncHandler(async (req, res) => {
+  const scooterId = req.body.scooterId;
+  if(!scooterId) {
+    res.status(400);
+    throw new Error("Scooter not found");
+  }
+  const rent = await Scooter.findByIdAndUpdate(scooterId, {
+    isRented: "Rented",
+  });
+  if (rent) {
+    res.status(200).json({
+      message: "Scooter rented",
+    });
+  } else {
+    res.status(400);
+    throw new Error("Scooter not found");
+  }
+});
+
 // @desc    Get all users
 // @route   GET /allUsers
 // @access  Private
@@ -85,4 +109,5 @@ module.exports = {
   register,
   login,
   getUsers,
+  rentScooter,
 };

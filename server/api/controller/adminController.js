@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Admin = require("../models/adminModel");
+const Scooter = require("../models/scooterModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -48,7 +49,7 @@ const register = asyncHandler(async (req, res) => {
 });
 
 // @desc    Auth user & get token
-// @route   POST /api/admin/login
+// @route   POST /admin/login
 // @access  Public
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -61,6 +62,34 @@ const login = asyncHandler(async (req, res) => {
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
+  }
+});
+
+// @desc    Create new scooter
+// @route   POST /admin/scooter
+// @access  Private
+
+const createScooter = asyncHandler(async (req, res) => {
+  const { latitude, longitude } = req.body;
+
+  if (!latitude || !longitude ) {
+    res.status(400);
+    throw new Error("Please fill in all fields");
+  }
+
+  const scooter = await Scooter.create({
+    latitude,
+    longitude,
+    isRented: "Not Rented",
+  });
+
+  if (scooter) {
+    res.status(201).json({
+      message: "Scooter created successfully",
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid scooter data");
   }
 });
 
@@ -84,4 +113,5 @@ module.exports = {
   register,
   login,
   getUsers,
+  createScooter,
 };
