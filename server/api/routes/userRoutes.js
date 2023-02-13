@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // import controller
-const {register, login, getUsers, rentScooter} = require("../controller/userController");
+const {register, login, getUsers, rentScooter, getScooters} = require("../controller/userController");
 
 // @desc    Register a new user
 router.route("/register").post(register);
@@ -11,10 +11,10 @@ router.route("/register").post(register);
 router.route("/login").post(login);
 
 // @desc    Get all users
-router.route("/allUsers").get(getUsers);
+router.route("/allScooters").get(getScooters);
 
 // @desc    Rent a scooter
-router.route("/rent").post(rentScooter);
+router.route("/rent/:id").post(rentScooter);
 
 
 // export route file

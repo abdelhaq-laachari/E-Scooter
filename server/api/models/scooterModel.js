@@ -12,6 +12,15 @@ const scooterSchema = mongoose.Schema({
   isRented: {
     type: String,
   },
+  model: {
+    type: String,
+  },
+  battery: {
+    type: String,
+  },
+  price: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("Scooter", scooterSchema);

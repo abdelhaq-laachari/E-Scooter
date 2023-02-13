@@ -71,7 +71,7 @@ const login = asyncHandler(async (req, res) => {
 // @access  Private
 
 const rentScooter = asyncHandler(async (req, res) => {
-  const scooterId = req.body.scooterId;
+  const scooterId = req.params.id;
   if(!scooterId) {
     res.status(400);
     throw new Error("Scooter not found");
@@ -89,13 +89,13 @@ const rentScooter = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get all users
-// @route   GET /allUsers
+// @desc    Get all scooters
+// @route   GET /allScooters
 // @access  Private
 
-const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
-  res.json(users);
+const getScooters = asyncHandler(async (req, res) => {
+  const scooters = await Scooter.find({});
+  res.json(scooters);
 });
 
 // Generate JWT
@@ -108,6 +108,6 @@ const generateToken = (id) => {
 module.exports = {
   register,
   login,
-  getUsers,
+  getScooters,
   rentScooter,
 };
