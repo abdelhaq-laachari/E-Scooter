@@ -70,9 +70,9 @@ const login = asyncHandler(async (req, res) => {
 // @access  Private
 
 const createScooter = asyncHandler(async (req, res) => {
-  const { latitude, longitude } = req.body;
+  const { latitude, longitude, model, battery, price } = req.body;
 
-  if (!latitude || !longitude ) {
+  if (!latitude || !longitude || !model || !battery || !price) {
     res.status(400);
     throw new Error("Please fill in all fields");
   }
@@ -81,6 +81,9 @@ const createScooter = asyncHandler(async (req, res) => {
     latitude,
     longitude,
     isRented: "Not Rented",
+    model,
+    battery,
+    price,
   });
 
   if (scooter) {
@@ -90,6 +93,22 @@ const createScooter = asyncHandler(async (req, res) => {
   } else {
     res.status(400);
     throw new Error("Invalid scooter data");
+  }
+});
+
+// @desc    Delete scooter
+// @route   DELETE /admin/scooter/:id
+// @access  Private
+
+const deleteScooter = asyncHandler(async (req, res) => {
+  const scooter = await Scooter.findById(req.params.id);
+
+  if (scooter) {
+    await scooter.remove();
+    res.json({ message: "Scooter removed" });
+  } else {
+    res.status(404);
+    throw new Error("Scooter not found");
   }
 });
 
@@ -114,4 +133,5 @@ module.exports = {
   login,
   getUsers,
   createScooter,
+  deleteScooter,
 };

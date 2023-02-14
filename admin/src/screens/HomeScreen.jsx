@@ -1,12 +1,39 @@
-import React from 'react'
-import { Text, View } from 'react-native'
+import React from "react";
+import { Text, View, Button, StyleSheet } from "react-native";
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   return (
-    <View>
-        <Text>Home</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Dashboard</Text>
+      <View style={styles.buttonsContainer}>
+        <Button
+          title="Get Scooters"
+          onPress={() => navigation.navigate("GetScooter")}
+        />
+        <Button
+          title="Add Scooter"
+          onPress={() => navigation.navigate("AddScooter")}
+        />
+      </View>
     </View>
-  )
-}
+  );
+};
 
-export default HomeScreen
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    fontSize: 30,
+    marginBottom: 20,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "60%",
+  },
+});
+
+export default HomeScreen;

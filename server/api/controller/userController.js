@@ -96,6 +96,7 @@ const rentScooter = asyncHandler(async (req, res) => {
 // @access  Private
 
 const getScooters = asyncHandler(async (req, res) => {
+  // const scooters = await Scooter.find({ isRented: "Not Rented"});
   const scooters = await Scooter.find({});
   res.json(scooters);
 });

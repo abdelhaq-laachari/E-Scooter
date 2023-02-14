@@ -32,7 +32,7 @@ export default function App() {
 
   const rentScooter = () => {
     axios
-      .put(`${apiUrl}/user/rent/${id}`, { rented: true })
+      .put(`${apiUrl}/user/rent/${id}`)
       .then((res) => {
         setSelectedScooter(res.data);
         alert("Scooter rented");
@@ -64,13 +64,32 @@ export default function App() {
                 Status: {selectedScooter.isRented}
               </Text>
               <View style={styles.buttonContainers}>
-                <Text
-                  style={{
-                    paddingRight: 10,
-                  }}
-                >
-                  <Button color={"green"} title="Rent" onPress={rentScooter} />
-                </Text>
+                {selectedScooter.isRented === "Not Rented" ? (
+                  <Text
+                    style={{
+                      paddingRight: 10,
+                    }}
+                  >
+                    <Button
+                      color={"green"}
+                      title="Rent"
+                      onPress={rentScooter}
+                    />
+                  </Text>
+                ) : (
+                  // <Text
+                  //   style={{
+                  //     paddingRight: 10,
+                  //   }}
+                  // >
+                  //   <Button
+                  //     color={"red"}
+                  //     title="Return"
+                  //     onPress={rentScooter}
+                  //   />
+                  // </Text>
+                  <View></View>
+                )}
                 <Button
                   color="#E91E63"
                   style={{ marginLeft: 10 }}
