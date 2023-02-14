@@ -14,7 +14,7 @@ router.route("/login").post(login);
 router.route("/allScooters").get(getScooters);
 
 // @desc    Rent a scooter
-router.route("/rent/:id").post(rentScooter);
+router.route("/rent/:id").put(rentScooter);
 
 
 // export route file

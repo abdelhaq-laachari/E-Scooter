@@ -72,17 +72,19 @@ const login = asyncHandler(async (req, res) => {
 
 const rentScooter = asyncHandler(async (req, res) => {
   const scooterId = req.params.id;
-  if(!scooterId) {
+  if (!scooterId) {
     res.status(400);
     throw new Error("Scooter not found");
   }
+  
   const rent = await Scooter.findByIdAndUpdate(scooterId, {
     isRented: "Rented",
   });
+  
+  const newScooter = await Scooter.findById(scooterId);
+
   if (rent) {
-    res.status(200).json({
-      message: "Scooter rented",
-    });
+    res.status(200).json(newScooter);
   } else {
     res.status(400);
     throw new Error("Scooter not found");

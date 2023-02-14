@@ -32,9 +32,9 @@ export default function App() {
 
   const rentScooter = () => {
     axios
-      .post(`${apiUrl}/user/rent/${id}`)
+      .put(`${apiUrl}/user/rent/${id}`, { rented: true })
       .then((res) => {
-        console.log(res.data);
+        setSelectedScooter(res.data);
         alert("Scooter rented");
       })
       .catch((err) => {
